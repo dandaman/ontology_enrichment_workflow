@@ -2,7 +2,8 @@ import pandas as pd
 import os
 
 O = ["GO","TO","PO"]
-G = ["metamodules"]
+G = ["phosphorylation_capacity"]
+gaf_pattern="annotation/Arabidopsis_thaliana.%s.6.gaf2"
 
 rule all: 
 	input: 
@@ -17,7 +18,7 @@ rule prepare_set:
 		"analysis/{group}/{O}",
 		"analysis/{group}/{O}/Snakefile"
 	shell:
-		"./prepare_sets.R {input} {output}"
+		"./prepare_sets.R {input} {output[0]} {gaf_pattern}"
 
 rule make_subset:
 	input: 

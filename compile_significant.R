@@ -52,6 +52,14 @@ O=do.call(rbind.data.frame,lapply(dir(analysis_path,pattern="^[^.]") , function(
 OO=list(GO=go,PO=po,TO=to)
 Oic=list(GO=goic,PO=poic,TO=toic)
 
+if (nrow(O)==0) {
+	print("No rows left")
+	x= data.frame()
+	write.table(x, file=output, col.names=FALSE)
+	q()
+}
+
+
 n=grep("^(loci|name)$",names(O),perl=TRUE)
 OK=O[,n]
 O=O[,-n]
