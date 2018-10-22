@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 
-O = ["GO","TO","PO"]
+O = ["GO","PO","TO"]
 G = ["phosphorylation_capacity"]
-gaf_pattern="annotation/Arabidopsis_thaliana.%s.6.gaf2"
+gaf_pattern="annotation/Arabidopsis.%s.gaf"
 
 rule all: 
 	input: 
@@ -37,4 +37,15 @@ rule compile_results:
 	shell:
 		"./compile_significant.R analysis Benjamini-Hochberg 0.05 {output.BH}; ./compile_significant.R analysis Bonferroni-Holm 0.05 {output.BF}"
 
-		
+rule clean:
+	input:
+		expand("analysis/{group}",group=G)
+	shell:
+		"rm -r {input}"
+
+rule clean_all:
+	input:
+		expand("Annotation/{O}.RData",O=O),
+		expand("analysis/{group}",group=G)
+	shell:
+		"rm -r {input}"
