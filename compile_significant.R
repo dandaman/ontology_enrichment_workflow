@@ -1,13 +1,13 @@
-#!/home/pgsb/daniel.lang/anaconda3/bin/Rscript
+#!/usr/bin/env Rscript
 library(stringr)
 library(ontologyIndex)
 library(ontologySimilarity)
 
 args = commandArgs(trailingOnly=TRUE)
 
-to=get_ontology("/nfs/pgsb/data/evograph/annotation/ontologies/to.obo", propagate_relationships=get_relation_names("/nfs/pgsb/data/evograph/annotation/ontologies/to.obo"))
-po=get_ontology("/nfs/pgsb/data/evograph/annotation/ontologies/po.obo", propagate_relationships=get_relation_names("/nfs/pgsb/data/evograph/annotation/ontologies/po.obo"))
-go=get_ontology("/nfs/pgsb/data/evograph/annotation/ontologies/go.obo", propagate_relationships=get_relation_names("/nfs/pgsb/data/evograph/annotation/ontologies/go.obo")[-c(4)])
+to=get_ontology("ontologies/to.obo", propagate_relationships=get_relation_names("ontologies/to.obo"))
+po=get_ontology("ontologies/po.obo", propagate_relationships=get_relation_names("ontologies/po.obo")[-c(4)]) # ignoring 'has_part'
+go=get_ontology("ontologies/go.obo", propagate_relationships=get_relation_names("ontologies/go.obo")[-c(4)]) # ignoring 'has_part'
 
 toic=descendants_IC(to)
 poic=descendants_IC(po)

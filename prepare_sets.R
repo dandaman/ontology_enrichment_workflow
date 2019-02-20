@@ -1,4 +1,4 @@
-#!/home/pgsb/daniel.lang/anaconda3/bin/Rscript
+#!/usr/bin/env Rscript
 
 args = commandArgs(trailingOnly=TRUE)
 
@@ -29,7 +29,7 @@ if (file.exists(sprintf("./Annotation/%s.RData",O))) {
 } else {
 	print(sprintf(gaf_pattern,O))
 	a<-read.delim(sprintf(gaf_pattern,O),sep="\t",stringsAsFactors=FALSE,header=FALSE, comment.char="",skip=1)
-	a<-unique(union(union(a[,3],union(a[,2],a[,10])),unlist(strsplit(a[1,11],"\\|")))) 
+	a<-unique(a[,2]) # depends on which column the IDs in the sets are in
 	save(a,file=sprintf("./Annotation/%s.RData",O))
 }
 
