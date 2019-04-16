@@ -47,5 +47,9 @@ FF=unique(unlist(sapply(list.files(D,pattern="*.set"),function(f) {
 							return(y)
 						}
 })))
-write.table(unlist(FF),file=sprintf("analysis/%s/%s/pop",d,O), row.names=FALSE,col.names=FALSE,quote=FALSE)
+#compare among sets
+#write.table(unlist(FF),file=sprintf("analysis/%s/%s/pop",d,O), row.names=FALSE,col.names=FALSE,quote=FALSE)
+
+#compare against entire population
+write.table(a,file=sprintf("analysis/%s/%s/pop",d,O), row.names=FALSE,col.names=FALSE,quote=FALSE)
 
