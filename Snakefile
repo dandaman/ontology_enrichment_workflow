@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 
-O = ["GO"] # which ontologies should be tested
-G = ["proteomics"] # multiple groups of gene sets can be compared indepently within each group i.e. each has its own pop file
-gaf_pattern="annotation/Glycine_max.%s.gaf2" # pattern to hold the ontology pattern to associate obo with gaf2 file
+O = ["GO","PO","TO"] # which ontologies should be tested
+G = ["wheat"] # multiple groups of gene sets can be compared indepently within each group i.e. each has its own pop file
+gaf_pattern="annotation/Triticum_aestivum_V1.1_PGSB_%sA_by_orthology.gaf" # pattern to hold the ontology pattern to associate obo with gaf2 file
 
 rule all: 
 	input: 
