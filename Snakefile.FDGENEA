@@ -1,0 +1,51 @@
+import pandas as pd
+import os
+
+O = ["GO","PO","TO"]
+G = ["FDGENEA_0.1","FDGENEA_0.01"]
+gaf_pattern="annotation/Physcomitrella_patens.%s.gaf2"
+
+rule all: 
+	input: 
+		expand("analysis/{group}/{O}/DONE",group=G,O=O),
+		"analysis/significantly_enriched_terms.FDGENEA.Bonferroni-Holm.txt",
+		"analysis/significantly_enriched_terms.FDGENEA.Benjamini-Hochberg.txt"
+
+rule prepare_set:
+	input:	
+		"input/{group}_sets/"
+	output:
+		"analysis/{group}/{O}",
+		"analysis/{group}/{O}/Snakefile"
+	shell:
+		"./prepare_sets.R {input} {output[0]} {gaf_pattern}"
+
+rule make_subset:
+	input: 
+		"analysis/{group}/{O}",
+	output:
+		"analysis/{group}/{O}/DONE"
+	shell:
+		"cd {input}; snakemake ; cd -;"
+
+rule compile_results:
+	input:
+		expand("analysis/{group}/{O}/DONE",group=G,O=O)
+	output:
+		BH="analysis/significantly_enriched_terms.FDGENEA.Benjamini-Hochberg.txt",
+		BF="analysis/significantly_enriched_terms.FDGENEA.Bonferroni-Holm.txt"
+	shell:
+		"./compile_significant.R analysis Benjamini-Hochberg 0.1 {output.BH}; ./compile_significant.R analysis Bonferroni-Holm 0.1 {output.BF}"
+
+rule clean:
+	input:
+		expand("analysis/{group}",group=G)
+	shell:
+		"rm -r {input}"
+
+rule clean_all:
+	input:
+		expand("Annotation/{O}.RData",O=O),
+		expand("analysis/{group}",group=G)
+	shell:
+		"rm -r {input}"

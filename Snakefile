@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 
-O = ["GO","PO","TO"] # which ontologies should be tested
-G = ["wheat"] # multiple groups of gene sets can be compared indepently within each group i.e. each has its own pop file
-gaf_pattern="annotation/Triticum_aestivum_V1.1_PGSB_%sA_by_orthology.gaf" # pattern to hold the ontology pattern to associate obo with gaf2 file
+O = ["GO","PO","TO"]
+G = ["subnetworks","profiles","subnetwork_profiles",  "subnetwork_regulation","subnetwork_deregulation"]
+gaf_pattern="annotation/Physcomitrella_patens.%s.gaf2"
 
 rule all: 
 	input: 
@@ -35,7 +35,7 @@ rule compile_results:
 		BH="analysis/significantly_enriched_terms.Benjamini-Hochberg.txt",
 		BF="analysis/significantly_enriched_terms.Bonferroni-Holm.txt"
 	shell:
-		"./compile_significant.R analysis Benjamini-Hochberg 0.1 {output.BH}; ./compile_significant.R analysis Bonferroni-Holm 0.1 {output.BF}" # adjust the cutoff to more stringent levels i.e. 0.01 or 0.05 if your getting too many genes
+		"./compile_significant.R analysis Benjamini-Hochberg 0.1 {output.BH}; ./compile_significant.R analysis Bonferroni-Holm 0.1 {output.BF}"
 
 rule clean:
 	input:

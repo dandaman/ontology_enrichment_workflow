@@ -29,7 +29,8 @@ if (file.exists(sprintf("./Annotation/%s.RData",O))) {
 } else {
 	print(sprintf(gaf_pattern,O))
 	a<-read.delim(sprintf(gaf_pattern,O),sep="\t",stringsAsFactors=FALSE,header=FALSE, comment.char="",skip=1)
-	a<-unique(a[,2]) # depends on which column the IDs in the sets are in
+	#a<-unique(union(union(a[,3],union(a[,2],a[,10])),unlist(strsplit(a[1,11],"\\|")))) 
+	a<-unique(a[,2])
 	save(a,file=sprintf("./Annotation/%s.RData",O))
 }
 
@@ -47,9 +48,5 @@ FF=unique(unlist(sapply(list.files(D,pattern="*.set"),function(f) {
 							return(y)
 						}
 })))
-#compare among sets
-#write.table(unlist(FF),file=sprintf("analysis/%s/%s/pop",d,O), row.names=FALSE,col.names=FALSE,quote=FALSE)
-
-#compare against entire population
-write.table(a,file=sprintf("analysis/%s/%s/pop",d,O), row.names=FALSE,col.names=FALSE,quote=FALSE)
+write.table(unlist(FF),file=sprintf("analysis/%s/%s/pop",d,O), row.names=FALSE,col.names=FALSE,quote=FALSE)
 
